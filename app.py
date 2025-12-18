@@ -60,7 +60,7 @@ if medico_sel:
     df_filtrado = df_filtrado[df_filtrado['id_clientes'].astype(str).isin(medico_sel)]
 
 # --- CUERPO PRINCIPAL ---
-st.title("📋 Gestión de Cheques - Distrito 208")
+st.title("Gestión de Cheques - Distrito 208")
 
 # --- SECCIÓN DE KPIs CON BARRA DE EFECTIVIDAD ---
 total = len(df_filtrado)
@@ -73,9 +73,9 @@ c1, c2, c3, c4 = st.columns([1, 1, 1, 2])
 with c1:
     st.metric("Total Generados", f"{total:,}")
 with c2:
-    st.metric("Redimidos ✅", f"{redimidos:,}")
+    st.metric("Redimidos", f"{redimidos:,}")
 with c3:
-    st.metric("Pendientes ⏳", f"{pendientes:,}")
+    st.metric("Pendientes", f"{pendientes:,}")
 with c4:
     st.write(f"**Efectividad: {efectividad*100:.1f}%**")
     st.progress(efectividad)
