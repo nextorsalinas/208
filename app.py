@@ -84,7 +84,7 @@ st.divider()
 
 # --- NUEVA SECCIÓN: GRÁFICO LINEAL MENSUAL (ALTURA REDUCIDA) ---
 # Usamos un texto más pequeño en lugar de subheader para ahorrar espacio
-st.markdown("### 📈 Tendencia Mensual")
+st.markdown("### Tendencia Mensual")
 
 # Agrupamos por mes_num y mes para mantener el orden
 df_linea = df_filtrado.groupby(['mes_num', 'mes']).size().reset_index(name='cantidad')
