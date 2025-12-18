@@ -97,7 +97,7 @@ if not df_linea.empty:
                        text='cantidad',
                        labels={'mes': 'Mes', 'cantidad': 'Cheques'},
                        template="plotly_white",
-                       height=150) 
+                       height=165) 
     
     # Limpiamos márgenes y quitamos títulos de los ejes para maximizar el espacio
     fig_line.update_layout(
