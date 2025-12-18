@@ -17,7 +17,7 @@ def load_data():
 df = load_data()
 
 # --- BARRA LATERAL (ASIDE) ---
-st.sidebar.header("🔍 Filtros de Búsqueda")
+st.sidebar.header("Filtros de Búsqueda")
 df_base = df[df['distrito'].astype(str) == '208'].copy()
 
 ruta_sel = st.sidebar.multiselect("Seleccionar Ruta", sorted(df_base['ruta'].astype(str).unique()))
@@ -36,7 +36,7 @@ if mes_sel: df_filtrado = df_filtrado[df_filtrado['mes'].isin(mes_sel)]
 if medico_sel: df_filtrado = df_filtrado[df_filtrado['id_clientes'].astype(str).isin(medico_sel)]
 
 # --- CUERPO PRINCIPAL ---
-st.title("📋 Gestión de Cheques - Distrito 208")
+st.title("Gestión de Cheques - Distrito 208")
 
 # --- SECCIÓN DE KPIs COMPACTA ---
 total = len(df_filtrado)
