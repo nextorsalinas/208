@@ -110,7 +110,7 @@ else:
 col_left, col_right = st.columns(2)
 
 with col_left:
-    st.subheader("Estado General de Redención")
+    st.subheader("Estado de Redención")
     fig_pie = px.pie(df_filtrado, names='estado', hole=0.4, 
                      color='estado',
                      color_discrete_map={'redimido':'#00CC96', 'Pendiente':'#F68B77'})
@@ -118,13 +118,13 @@ with col_left:
     # Reducir tamaño del gráfico circular
     fig_pie.update_layout(
         height=250,  # Altura reducida
-        margin=dict(l=20, r=20, t=30, b=20)  # Márgenes reducidos
+        margin=dict(l=10, r=10, t=30, b=20)  # Márgenes reducidos
     )
     
     st.plotly_chart(fig_pie, use_container_width=True)
 
 with col_right:
-    st.subheader("Top 5 Médicos con más Generación")
+    st.subheader("Médicos con más Generación")
     top_medicos = df_filtrado['id_clientes'].value_counts().head(5).reset_index()
     fig_med = px.bar(top_medicos, x='count', y='id_clientes', orientation='h',
                      labels={'count':'Cupones', 'id_clientes':'Médico'},
