@@ -130,7 +130,7 @@ st.subheader("🔍 Detalle de Registros Filtrados")
 
 # Definimos las columnas que queremos mostrar
 # Nota: Si el nombre en tu CSV es diferente a 'codigo_barras', cámbialo aquí
-cols_to_show = ['id_clientes', 'descripcion', 'codigo_barras', 'cadena', 'ruta', 'estado']
+cols_to_show = ['id_clientes', 'descripcion', 'codigobarras', 'cadena', 'ruta', 'estado']
 
 # Creamos un DataFrame temporal para la visualización
 # Renombramos id_clientes -> medico y descripcion -> producto
