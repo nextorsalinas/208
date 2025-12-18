@@ -92,7 +92,7 @@ if not df_linea.empty:
     fig_line = px.line(df_linea, x='mes', y='cantidad', 
                        markers=True,
                        text='cantidad',
-                       labels={'mes': 'Mes', 'cantidad': 'Cheques Generados'},
+                       labels={'mes': 'Mes': 'Cheques Generados'},
                        template="plotly_white")
     fig_line.update_traces(textposition="top center", line_color="#636EFA")
     st.plotly_chart(fig_line, use_container_width=True)
