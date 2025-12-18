@@ -75,7 +75,7 @@ with c2:
 with c3:
     st.metric("Pendientes ⏳", f"{pendientes:,}")
 with c4:
-    st.write(f"**% Efectividad: {efectividad*100:.1f}%**")
+    st.write(f"**Efectividad: {efectividad*100:.1f}%**")
     st.progress(efectividad)
 
 st.divider()
