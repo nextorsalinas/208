@@ -117,7 +117,7 @@ with col_left:
     
     # Reducir tamaño del gráfico circular
     fig_pie.update_layout(
-        height=350,  # Altura reducida
+        height=250,  # Altura reducida
         margin=dict(l=20, r=20, t=30, b=20)  # Márgenes reducidos
     )
     
