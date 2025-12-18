@@ -65,7 +65,7 @@ with c4:
     
     if not df_linea.empty:
         fig_mini_line = px.line(df_linea, x='mes', y='cantidad', markers=True,
-                               template="plotly_white", height=150) # Altura reducida
+                               template="plotly_white", height=100) # Altura reducida
         fig_mini_line.update_layout(margin=dict(l=0, r=0, t=0, b=0), # Quitar márgenes
                                     xaxis_title=None, yaxis_title=None)
         fig_mini_line.update_traces(line_color="#636EFA")
