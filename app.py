@@ -20,7 +20,7 @@ def load_data():
 df = load_data()
 
 # --- BARRA LATERAL (ASIDE) ---
-st.sidebar.header("🔍 Filtros de Búsqueda")
+st.sidebar.header("Filtros de Búsqueda")
 
 # Filtro fijo inicial para Distrito 208
 df_base = df[df['distrito'].astype(str) == '208'].copy()
