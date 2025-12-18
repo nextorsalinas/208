@@ -83,15 +83,12 @@ with c4:
 st.divider()
 
 # --- NUEVA SECCIÓN: GRÁFICO LINEAL MENSUAL (ALTURA REDUCIDA) ---
-# Usamos un texto más pequeño en lugar de subheader para ahorrar espacio
 st.markdown("### Tendencia Mensual")
 
-# Agrupamos por mes_num y mes para mantener el orden
 df_linea = df_filtrado.groupby(['mes_num', 'mes']).size().reset_index(name='cantidad')
 df_linea = df_linea.sort_values('mes_num')
 
 if not df_linea.empty:
-    # Ajustamos height a 180 (aprox la mitad de uno estándar)
     fig_line = px.line(df_linea, x='mes', y='cantidad', 
                        markers=True,
                        text='cantidad',
@@ -99,7 +96,6 @@ if not df_linea.empty:
                        template="plotly_white",
                        height=180) 
     
-    # Limpiamos márgenes y quitamos títulos de los ejes para maximizar el espacio
     fig_line.update_layout(
         margin=dict(l=20, r=20, t=30, b=20),
         xaxis_title=None,
@@ -131,10 +127,16 @@ with col_right:
     fig_med.update_layout(yaxis={'categoryorder':'total ascending'})
     st.plotly_chart(fig_med, use_container_width=True)
 
-# --- TABLA DE DATOS ---
+# --- TABLA DE DATOS MODIFICADA ---
 st.subheader("🔍 Detalle de Registros Filtrados")
-st.dataframe(df_filtrado[['created_at', 'id_clientes', 'descripcion', 'cadena', 'ruta', 'estado']], 
-             use_container_width=True)
+
+# Seleccionamos y renombramos las columnas según lo solicitado
+df_tabla = df_filtrado[['id_clientes', 'descripcion', 'cadena', 'ruta', 'estado']].rename(columns={
+    'id_clientes': 'médico',
+    'descripcion': 'producto'
+})
+
+st.dataframe(df_tabla, use_container_width=True)
 
 # Botón de exportación en el Aside
 csv = df_filtrado.to_csv(index=False).encode('utf-8')
