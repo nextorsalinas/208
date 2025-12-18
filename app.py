@@ -18,7 +18,7 @@ def load_data():
 df = load_data()
 
 # --- BARRA LATERAL (ASIDE) ---
-st.sidebar.header("🔍 Filtros de Búsqueda")
+st.sidebar.header("Filtros de Búsqueda")
 
 # Filtro fijo inicial para Distrito 208
 df_base = df[df['distrito'].astype(str) == '208'].copy()
@@ -58,7 +58,7 @@ if medico_sel:
     df_filtrado = df_filtrado[df_filtrado['id_clientes'].astype(str).isin(medico_sel)]
 
 # --- CUERPO PRINCIPAL ---
-st.title("📋 Gestión de Cheques - Distrito 208")
+st.title("Gestión de Cheques - Distrito 208")
 
 # --- SECCIÓN DE KPIs CON BARRA DE EFECTIVIDAD ---
 total = len(df_filtrado)
