@@ -128,7 +128,7 @@ with col_right:
     st.plotly_chart(fig_med, use_container_width=True)
 
 # --- TABLA DE DATOS MODIFICADA ---
-st.subheader("🔍 Detalle de Registros Filtrados")
+st.subheader("Detalle de Registros")
 
 # Seleccionamos y renombramos las columnas según lo solicitado
 df_tabla = df_filtrado[['id_clientes', 'descripcion', 'cadena', 'ruta', 'estado']].rename(columns={
