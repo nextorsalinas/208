@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 
 # Configuración de página
-st.set_page_config(page_title="Dashboard Distrito 207", layout="wide")
+st.set_page_config(page_title="Dashboard Distrito 208", layout="wide")
 
 @st.cache_data
 def load_data():
@@ -21,7 +21,7 @@ df = load_data()
 st.sidebar.header("🔍 Filtros de Búsqueda")
 
 # Filtro fijo inicial para Distrito 208
-df_base = df[df['distrito'].astype(str) == '207'].copy()
+df_base = df[df['distrito'].astype(str) == '208'].copy()
 
 # 1. Filtro de Ruta
 rutas = sorted(df_base['ruta'].astype(str).unique())
@@ -58,7 +58,7 @@ if medico_sel:
     df_filtrado = df_filtrado[df_filtrado['id_clientes'].astype(str).isin(medico_sel)]
 
 # --- CUERPO PRINCIPAL ---
-st.title(" Gestión de Cheques - Distrito 207")
+st.title("📋 Gestión de Cheques - Distrito 208")
 
 # --- SECCIÓN DE KPIs CON BARRA DE EFECTIVIDAD ---
 total = len(df_filtrado)
@@ -100,7 +100,7 @@ with col_right:
     st.plotly_chart(fig_med, use_container_width=True)
 
 # --- TABLA DE DATOS ---
-st.subheader("🔍 Detalle de Registros")
+st.subheader("🔍 Detalle de Registros Filtrados")
 st.dataframe(df_filtrado[['created_at', 'id_clientes', 'descripcion', 'cadena', 'ruta', 'estado']], 
              use_container_width=True)
 
@@ -109,6 +109,6 @@ csv = df_filtrado.to_csv(index=False).encode('utf-8')
 st.sidebar.download_button(
     label="📥 Descargar CSV Filtrado",
     data=csv,
-    file_name='reporte_distrito_207.csv',
+    file_name='reporte_distrito_208.csv',
     mime='text/csv',
 )
