@@ -113,7 +113,7 @@ with col_left:
     st.subheader("Estado General de Redención")
     fig_pie = px.pie(df_filtrado, names='estado', hole=0.4, 
                      color='estado',
-                     color_discrete_map={'redimido':'#00CC96', 'Pendiente':'#EF553B'})
+                     color_discrete_map={'redimido':'#00CC96', 'Pendiente':'#F68B77'})
     st.plotly_chart(fig_pie, use_container_width=True)
 
 with col_right:
