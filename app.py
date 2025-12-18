@@ -114,15 +114,26 @@ with col_left:
     fig_pie = px.pie(df_filtrado, names='estado', hole=0.4, 
                      color='estado',
                      color_discrete_map={'redimido':'#00CC96', 'Pendiente':'#F68B77'})
+    
+    # Reducir tamaño del gráfico circular
+    fig_pie.update_layout(
+        height=350,  # Altura reducida
+        margin=dict(l=20, r=20, t=30, b=20)  # Márgenes reducidos
+    )
+    
     st.plotly_chart(fig_pie, use_container_width=True)
 
 with col_right:
-    st.subheader("Top 10 Médicos con más Generación")
-    top_medicos = df_filtrado['id_clientes'].value_counts().head(10).reset_index()
+    st.subheader("Top 5 Médicos con más Generación")
+    top_medicos = df_filtrado['id_clientes'].value_counts().head(5).reset_index()
     fig_med = px.bar(top_medicos, x='count', y='id_clientes', orientation='h',
                      labels={'count':'Cupones', 'id_clientes':'Médico'},
                      color_discrete_sequence=['#3498db'])
-    fig_med.update_layout(yaxis={'categoryorder':'total ascending'})
+    fig_med.update_layout(
+        yaxis={'categoryorder':'total ascending'},
+        height=350,  # Misma altura que el pie chart
+        margin=dict(l=20, r=20, t=30, b=20)
+    )
     st.plotly_chart(fig_med, use_container_width=True)
 
 # --- TABLA DE DATOS (AJUSTADA SEGÚN SOLICITUD) ---
