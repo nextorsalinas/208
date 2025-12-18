@@ -82,24 +82,35 @@ with c4:
 
 st.divider()
 
-# --- NUEVA SECCIÓN: GRÁFICO LINEAL MENSUAL ---
-st.subheader("📈 Tendencia de Generación Mensual (2025)")
+# --- NUEVA SECCIÓN: GRÁFICO LINEAL MENSUAL (ALTURA REDUCIDA) ---
+# Usamos un texto más pequeño en lugar de subheader para ahorrar espacio
+st.markdown("### 📈 Tendencia Mensual")
+
 # Agrupamos por mes_num y mes para mantener el orden
 df_linea = df_filtrado.groupby(['mes_num', 'mes']).size().reset_index(name='cantidad')
 df_linea = df_linea.sort_values('mes_num')
 
 if not df_linea.empty:
+    # Ajustamos height a 180 (aprox la mitad de uno estándar)
     fig_line = px.line(df_linea, x='mes', y='cantidad', 
                        markers=True,
                        text='cantidad',
-                       labels={'mes': 'Mes', 'cantidad': 'Cheques Generados'},
-                       template="plotly_white")
+                       labels={'mes': 'Mes', 'cantidad': 'Cheques'},
+                       template="plotly_white",
+                       height=180) 
+    
+    # Limpiamos márgenes y quitamos títulos de los ejes para maximizar el espacio
+    fig_line.update_layout(
+        margin=dict(l=20, r=20, t=30, b=20),
+        xaxis_title=None,
+        yaxis_title=None,
+        showlegend=False
+    )
+    
     fig_line.update_traces(textposition="top center", line_color="#636EFA")
-    st.plotly_chart(fig_line, use_container_width=True)
+    st.plotly_chart(fig_line, use_container_width=True, config={'displayModeBar': False})
 else:
-    st.info("No hay datos suficientes para mostrar la tendencia lineal.")
-
-st.divider()
+    st.info("No hay datos suficientes.")
 
 # --- OTRAS VISUALIZACIONES ---
 col_left, col_right = st.columns(2)
