@@ -137,7 +137,7 @@ with col_right:
     st.plotly_chart(fig_med, use_container_width=True)
 
 # --- TABLA DE DATOS (AJUSTADA SEGÚN SOLICITUD) ---
-st.subheader("🔍 Detalle de Registros Filtrados")
+st.subheader("Detalle de Registros Filtrados")
 
 # Definimos las columnas que queremos mostrar
 # Nota: Si el nombre en tu CSV es diferente a 'codigo_barras', cámbialo aquí
