@@ -128,16 +128,19 @@ with col_right:
     st.plotly_chart(fig_med, use_container_width=True)
 
 # --- TABLA DE DATOS MODIFICADA ---
-st.subheader("Detalle de Registros")
+st.subheader("🔍 Detalle de Registros Filtrados")
 
-# Seleccionamos y renombramos las columnas según lo solicitado
-df_tabla = df_filtrado[['id_clientes', 'descripcion', 'cadena', 'ruta', 'estado']].rename(columns={
+# Asegúrate de que 'codigo_barras' sea el nombre exacto de la columna en tu CSV
+columnas_visibles = ['id_clientes', 'descripcion', 'codigo_barras', 'cadena', 'ruta', 'estado']
+
+# Creamos el DataFrame para mostrar con los nombres de cabecera ajustados
+df_tabla = df_filtrado[columnas_visibles].rename(columns={
     'id_clientes': 'médico',
-    'descripcion': 'producto'
+    'descripcion': 'producto',
+    'codigo_barras': 'código de barras'
 })
 
 st.dataframe(df_tabla, use_container_width=True)
-
 # Botón de exportación en el Aside
 csv = df_filtrado.to_csv(index=False).encode('utf-8')
 st.sidebar.download_button(
