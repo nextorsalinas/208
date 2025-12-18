@@ -82,9 +82,8 @@ with c4:
 
 st.divider()
 
-# --- NUEVA SECCIÓN: GRÁFICO LINEAL MENSUAL (ALTURA REDUCIDA) ---
+# --- SECCIÓN: GRÁFICO LINEAL MENSUAL ---
 st.markdown("### Tendencia Mensual")
-
 df_linea = df_filtrado.groupby(['mes_num', 'mes']).size().reset_index(name='cantidad')
 df_linea = df_linea.sort_values('mes_num')
 
@@ -102,7 +101,6 @@ if not df_linea.empty:
         yaxis_title=None,
         showlegend=False
     )
-    
     fig_line.update_traces(textposition="top center", line_color="#636EFA")
     st.plotly_chart(fig_line, use_container_width=True, config={'displayModeBar': False})
 else:
@@ -127,20 +125,25 @@ with col_right:
     fig_med.update_layout(yaxis={'categoryorder':'total ascending'})
     st.plotly_chart(fig_med, use_container_width=True)
 
-# --- TABLA DE DATOS MODIFICADA ---
+# --- TABLA DE DATOS (AJUSTADA SEGÚN SOLICITUD) ---
 st.subheader("🔍 Detalle de Registros Filtrados")
 
-# Asegúrate de que 'codigo_barras' sea el nombre exacto de la columna en tu CSV
-columnas_visibles = ['id_clientes', 'descripcion', 'codigo_barras', 'cadena', 'ruta', 'estado']
+# Definimos las columnas que queremos mostrar
+# Nota: Si el nombre en tu CSV es diferente a 'codigo_barras', cámbialo aquí
+cols_to_show = ['id_clientes', 'descripcion', 'codigo_barras', 'cadena', 'ruta', 'estado']
 
-# Creamos el DataFrame para mostrar con los nombres de cabecera ajustados
-df_tabla = df_filtrado[columnas_visibles].rename(columns={
-    'id_clientes': 'médico',
-    'descripcion': 'producto',
-    'codigo_barras': 'código de barras'
-})
+# Creamos un DataFrame temporal para la visualización
+# Renombramos id_clientes -> medico y descripcion -> producto
+try:
+    df_tabla = df_filtrado[cols_to_show].rename(columns={
+        'id_clientes': 'médico',
+        'descripcion': 'producto',
+        'codigo_barras': 'código de barras'
+    })
+    st.dataframe(df_tabla, use_container_width=True, hide_index=True)
+except KeyError as e:
+    st.error(f"Error: No se encontró la columna {e} en el archivo. Verifica los nombres de las columnas.")
 
-st.dataframe(df_tabla, use_container_width=True)
 # Botón de exportación en el Aside
 csv = df_filtrado.to_csv(index=False).encode('utf-8')
 st.sidebar.download_button(
