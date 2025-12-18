@@ -3,10 +3,11 @@ import pandas as pd
 import plotly.express as px
 
 # Configuración de página
-st.set_page_config(page_title="Dashboard Distrito 208", layout="wide")
+st.set_page_config(page_title="Dashboard Distrito 207", layout="wide")
 
 @st.cache_data
 def load_data():
+    # El archivo generado previamente en Colab
     df = pd.read_csv('cupcodigos_con_estado_2025.csv')
     df['created_at'] = pd.to_datetime(df['created_at'])
     df['estado'] = df['estado'].fillna('Pendiente').replace('', 'Pendiente')
@@ -20,7 +21,7 @@ df = load_data()
 st.sidebar.header("🔍 Filtros de Búsqueda")
 
 # Filtro fijo inicial para Distrito 208
-df_base = df[df['distrito'].astype(str) == '208'].copy()
+df_base = df[df['distrito'].astype(str) == '207'].copy()
 
 # 1. Filtro de Ruta
 rutas = sorted(df_base['ruta'].astype(str).unique())
@@ -57,40 +58,57 @@ if medico_sel:
     df_filtrado = df_filtrado[df_filtrado['id_clientes'].astype(str).isin(medico_sel)]
 
 # --- CUERPO PRINCIPAL ---
-st.title("📋 Gestión de Cheques - Distrito 208")
+st.title(" Gestión de Cheques - Distrito 207")
 
-# Métricas rápidas
-c1, c2, c3 = st.columns(3)
+# --- SECCIÓN DE KPIs CON BARRA DE EFECTIVIDAD ---
+total = len(df_filtrado)
+redimidos = len(df_filtrado[df_filtrado['estado'] == 'redimido'])
+pendientes = total - redimidos
+efectividad = (redimidos / total) if total > 0 else 0
+
+c1, c2, c3, c4 = st.columns([1, 1, 1, 2]) # El cuarto es más ancho para la barra
+
 with c1:
-    st.metric("Total Filtrado", len(df_filtrado))
+    st.metric("Total Generados", f"{total:,}")
 with c2:
-    redimidos = len(df_filtrado[df_filtrado['estado'] == 'redimido'])
-    st.metric("Redimidos", redimidos)
+    st.metric("Redimidos ✅", f"{redimidos:,}")
 with c3:
-    pendientes = len(df_filtrado) - redimidos
-    st.metric("Pendientes", pendientes)
+    st.metric("Pendientes ⏳", f"{pendientes:,}")
+with c4:
+    st.write(f"**% Efectividad: {efectividad*100:.1f}%**")
+    st.progress(efectividad)
 
 st.divider()
 
-# Visualización
+# --- VISUALIZACIONES ---
 col_left, col_right = st.columns(2)
 
 with col_left:
-    st.subheader("Estado de Redención")
-    fig_pie = px.pie(df_filtrado, names='estado', hole=0.4, color='estado',
+    st.subheader("Estado General de Redención")
+    fig_pie = px.pie(df_filtrado, names='estado', hole=0.4, 
+                     color='estado',
                      color_discrete_map={'redimido':'#00CC96', 'Pendiente':'#EF553B'})
     st.plotly_chart(fig_pie, use_container_width=True)
 
 with col_right:
-    st.subheader("Actividad por Médico (Top 10)")
+    st.subheader("Top 10 Médicos con más Generación")
     top_medicos = df_filtrado['id_clientes'].value_counts().head(10).reset_index()
-    fig_med = px.bar(top_medicos, x='count', y='id_clientes', orientation='h', title="Cheques por Médico")
+    fig_med = px.bar(top_medicos, x='count', y='id_clientes', orientation='h',
+                     labels={'count':'Cupones', 'id_clientes':'Médico'},
+                     color_discrete_sequence=['#636EFA'])
+    fig_med.update_layout(yaxis={'categoryorder':'total ascending'})
     st.plotly_chart(fig_med, use_container_width=True)
 
-# Tabla de datos final
-st.subheader("Detalle de Registros Filtrados")
-st.dataframe(df_filtrado, use_container_width=True)
+# --- TABLA DE DATOS ---
+st.subheader("🔍 Detalle de Registros")
+st.dataframe(df_filtrado[['created_at', 'id_clientes', 'descripcion', 'cadena', 'ruta', 'estado']], 
+             use_container_width=True)
 
-# Botón para descargar lo que el usuario filtró
+# Botón de exportación
 csv = df_filtrado.to_csv(index=False).encode('utf-8')
-st.download_button("📥 Descargar Excel (CSV) filtrado", csv, "reporte_personalizado.csv", "text/csv")
+st.sidebar.download_button(
+    label="📥 Descargar CSV Filtrado",
+    data=csv,
+    file_name='reporte_distrito_207.csv',
+    mime='text/csv',
+)
